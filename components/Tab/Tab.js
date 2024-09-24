@@ -1,11 +1,11 @@
 import { View, Text, Pressable } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import style from "./style";
 import { horizontalScale } from "../../assets/styles/scaling";
 
-const Tab = (props) => {
-  const [width, setWidth] = React.useState(0);
+const Tab = ({ tabId, title, isInactive = false, onPress = () => {} }) => {
+  const [width, setWidth] = useState(0);
   const textRef = useRef(null);
   const paddingHorizontal = 33;
   const tabWidth = {
@@ -13,29 +13,24 @@ const Tab = (props) => {
   };
   return (
     <Pressable
-      disabled={props.isInactive}
-      style={[style.tab, props.isInactive && style.inactiveTab, tabWidth]}
-      onPress={props.onPress}
+      style={[style.tab, isInactive && style.inactiveTab, tabWidth]}
+      onPress={() => onPress(tabId)}
     >
       <Text
         onTextLayout={(event) => {
           setWidth(event.nativeEvent.lines[0].width);
         }}
         ref={textRef}
-        style={[style.title, props.isInactive && style.inactiveTitle]}
+        style={[style.title, isInactive && style.inactiveTitle]}
       >
-        {props.title}
+        {title}
       </Text>
     </Pressable>
   );
 };
 
-Tab.defaultProps = {
-  isInactive: false,
-  onPress: () => {},
-};
-
 Tab.propTypes = {
+  tabId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   isInactive: PropTypes.bool,
   onPress: PropTypes.func,
