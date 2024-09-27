@@ -201,6 +201,7 @@ const initialState = {
       donationItemId: 20,
       categoryIds: [9],
       price: "13.83",
+      selectDonationInformation: {},
     },
   ],
   selectedDonationId: null,
@@ -213,7 +214,13 @@ export const Donations = createSlice({
       return initialState;
     },
     updateSelectedDonationId: (state, action) => {
+      console.log("==============state.items======================");
+      console.log(state.items);
+      console.log("====================================");
       state.selectedDonationId = action.payload;
+      state.selectDonationInformation = state.items.find(
+        (item) => item.donationItemId === action.payload
+      );
     },
   },
 });
