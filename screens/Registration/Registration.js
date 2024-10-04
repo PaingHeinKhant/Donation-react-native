@@ -1,5 +1,6 @@
 import { View, Text, SafeAreaView, ScrollView, Pressable } from "react-native";
 import React, { useState } from "react";
+import { useRegisterMutation } from "../../api/userSlice";
 import globalStyle from "../../assets/styles/globalStyle";
 import Input from "../../components/Input/Input";
 import Header from "../../components/Header/Header";
@@ -12,8 +13,22 @@ const Registration = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  console.log("email", email);
+  const [register, { isLoading, isError, error }] = useRegisterMutation();
 
+  const handleRegister = async () => {
+    console.log('====================================');
+    console.log('fullName', fullName);
+    console.log('====================================');
+    try {
+      await register({ name: fullName, email, password }).unwrap();
+      console.log('====================================');
+      console.log('success');
+      console.log('====================================');
+      // Navigate or handle successful registration here
+    } catch (err) {
+      console.error("Registration failed: ", err);
+    }
+  };
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
       <View style={style.backButton}>
@@ -50,8 +65,10 @@ const Registration = ({navigation}) => {
           />
         </View>
         <View style={globalStyle.marginBottom24}>
-          <Button title="Register" />
+          <Button title="Register" onPress={handleRegister} disabled={isLoading}/>
         </View>
+        {isError && <Text style={{ color: 'red' }}>{error.message}</Text>}
+
       </ScrollView>
     </SafeAreaView>
   );

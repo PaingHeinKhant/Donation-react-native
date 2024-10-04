@@ -20,7 +20,7 @@ import { updateSelectedDonationId } from "../../redux/reducers/Donations";
 import { Routes } from "../../navigation/Routes";
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);  
   const categories = useSelector((state) => state.categories);
   const donations = useSelector((state) => state.donations);
 
@@ -40,12 +40,12 @@ const Home = ({ navigation }) => {
     setIsLoadingCategories(false);
   }, []);
 
-  useEffect(() => {
-    const items = donations.items.filter((value) =>
-      value.categoryIds.includes(categories.selectedCategoryId)
-    );
-    setDonationItems(items);
-  }, [categories.selectedCategoryId]);
+  // useEffect(() => {
+  //   const items = donations.items.filter((value) =>
+  //     value.categoryIds.includes(categories.selectedCategoryId)
+  //   );
+  //   setDonationItems(items);
+  // }, [categories.selectedCategoryId]);
 
   const pagination = (items, pageNumber, pageSize) => {
     const startIndex = (pageNumber - 1) * pageSize;
